@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat'
 import Fire from '../Fire';
+import Tabs from '../navigation/myBottomTabNavigator'
 
 class Chat extends Component {
   static navigationOptions = ({ navigation }) => ({
-    title: (navigation.state.params || {}).name || 'Chat',
+    title: (navigation.state.params || {}).name || 'Chat!',
   });
 
   constructor(){
@@ -22,7 +23,6 @@ class Chat extends Component {
         messages: GiftedChat.append(previousState.messages, message)
       }))
     })
-    // console.log('props', this.props)
   }
 
   componentWillUnmount(){
@@ -36,25 +36,18 @@ class Chat extends Component {
       _id: Fire.shared.uid,
     };
   }
-  // componentDidMount(){
-  //   static navigationOptions = ({ navigation }) => ({
-  //     title: (navigation.state.params || {}).name || 'Chat!',
-  //   });
-  //   // this.setState({ name : this.props.route.params.name})
-  // }
+
   render() {
-    // console.log('props', this.props)
+    console.log('iser', this.user)
     return (
-      // <View>
-      //   <Text>
-      //     Hello
-      //   </Text>
-      // </View>
-      <GiftedChat
-      messages={this.state.messages}
-      onSend={Fire.shared.send}
-      user={this.user}
-      />
+      <View style={{flex: 1}}>
+        <GiftedChat
+        messages={this.state.messages}
+        onSend={Fire.shared.send}
+        user={this.user}
+        />
+        <Tabs />
+      </View>
     )
   }
 }

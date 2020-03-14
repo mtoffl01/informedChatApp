@@ -1,7 +1,6 @@
 import firebase from 'firebase';
-import 'firebase/firestore';
+// import 'firebase/firestore';
 
-var messagesDB = null;
 class Fire {
   constructor(){
     this.init();
@@ -16,6 +15,7 @@ class Fire {
     if(!user){
       try{
         firebase.auth().signInAnonymously();
+        console.log('anonymous signin')
       } catch({ message }){
         alert(message);
       }
@@ -25,20 +25,13 @@ class Fire {
   get ref() {
     return firebase.database().ref('messages');
   }
-  // 2.
-  // on(callback){
-  //     this.ref
-  //       .limitToLast(20)
-  //       .on('child_added', snapshot => callback(this.parse(snapshot)));
-  // }
+  2.
   on(callback){
-    const msgs = messagesDB
-      .limit(20);
-      // console.log('messagesDB', messagesDB)
-      // const query = messagesDB.where("text", "==", "my first message");
-      console.log('msg', msgs)
-      // .on('child_added', snapshot => callback(this.parse(snapshot)));
-}
+      this.ref
+        .limitToLast(20)
+        .on('child_added', snapshot => callback(this.parse(snapshot)));
+  }
+
   // 3.
   parse(snapshot){
     // 1.
@@ -87,16 +80,14 @@ append = message => this.ref.push(message);
 
   init(){
     firebase.initializeApp({
-      apiKey: "AIzaSyDGj8WG28z_nMX0hFXOJCy677N6pIHLunk",
-      authDomain: "my-first-e0b82.firebaseapp.com",
-      databaseURL: "https://my-first-e0b82.firebaseio.com",
-      projectId: "my-first-e0b82",
-      storageBucket: "my-first-e0b82.appspot.com",
-      messagingSenderId: "483752727278",
-      appId: "1:483752727278:web:1777a9d54d76e653d2d9ff",
-      measurementId: "G-743ZX52G67"
+      apiKey: "AIzaSyCWsxd92cGA3jrJHTQdM56J8XtpaFtEYt4",
+      authDomain: "messageboard-ca6c8.firebaseapp.com",
+      databaseURL: "https://messageboard-ca6c8.firebaseio.com",
+      projectId: "messageboard-ca6c8",
+      storageBucket: "messageboard-ca6c8.appspot.com",
+      messagingSenderId: "969052427718",
+      appId: "1:969052427718:web:2ae996c40b808298314ec7"
     })
-    messagesDB = firebase.firestore().collection("messages");
   }
 }
 
