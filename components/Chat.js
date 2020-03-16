@@ -2,23 +2,22 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat'
 import Fire from '../Fire';
-import Tabs from '../navigation/myBottomTabNavigator'
+import { connect } from 'react-redux'
 
 class Chat extends Component {
   static navigationOptions = ({ navigation }) => ({
-    title: (navigation.state.params || {}).name || 'Chat!',
+    title: 'Chat',
   });
 
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.state = {
-      name: '',
       messages: []
     }
   }
 
   componentDidMount(){
-    Fire.shared.on(message => {
+    Fire.shared.on('messagesMode', message => {
       this.setState(previousState => ({
         messages: GiftedChat.append(previousState.messages, message)
       }))
@@ -32,13 +31,13 @@ class Chat extends Component {
   get user() {
     // Return our name and our UID for GiftedChat to parse
     return {
-      name: this.props.route.params.name,
+      name: this.props.name,
       _id: Fire.shared.uid,
     };
   }
 
   render() {
-    console.log('iser', this.user)
+    console.log('chat props', this.props)
     return (
       <View style={{flex: 1}}>
         <GiftedChat
@@ -46,7 +45,6 @@ class Chat extends Component {
         onSend={Fire.shared.send}
         user={this.user}
         />
-        <Tabs />
       </View>
     )
   }
@@ -54,4 +52,8 @@ class Chat extends Component {
 
 const styles = StyleSheet.create({});
 
-export default Chat;
+const mapStateToProps = state => ({
+  name: state.user.name
+})
+
+export default connect(mapStateToProps)(Chat);

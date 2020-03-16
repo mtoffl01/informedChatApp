@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Tab Navigation Template",
+    "name": "My first chat app",
     "slug": "chatApp",
     "privacy": "public",
     "sdkVersion": "36.0.0",

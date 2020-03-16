@@ -1,5 +1,4 @@
 import firebase from 'firebase';
-// import 'firebase/firestore';
 
 class Fire {
   constructor(){
@@ -8,6 +7,7 @@ class Fire {
   }
 
   observeAuth(){
+    console.log('observe auth', this.onAuthStateChanged)
     firebase.auth().onAuthStateChanged(this.onAuthStateChanged)
   }
 
@@ -22,14 +22,26 @@ class Fire {
     }
   }
 
-  get ref() {
+  get messagesRef() {
     return firebase.database().ref('messages');
   }
-  2.
-  on(callback){
-      this.ref
-        .limitToLast(20)
-        .on('child_added', snapshot => callback(this.parse(snapshot)));
+
+  getAllUsers = () => {
+    console.log('hello')
+    return [];
+    // let usersRef = firebase.database().ref("users");
+    // return usersRef.on('value', snapshot => {
+    //   console.log('snapshot', snapshot.val())
+    //    return snapshot.val();
+    // })
+  }
+
+  on(mode, callback){
+    if(mode === 'messagesMode'){
+      this.messagesRef
+      .limitToLast(20)
+      .on('child_added', snapshot => callback(this.parse(snapshot)));
+    }
   }
 
   // 3.
@@ -50,7 +62,7 @@ class Fire {
   };
   // 4.
   off() {
-    this.ref.off();
+    this.messagesRef.off();
   }
 
   // 1.
@@ -76,7 +88,7 @@ send = messages => {
   }
 };
 // 5.
-append = message => this.ref.push(message);
+append = message => this.messagesRef.push(message);
 
   init(){
     firebase.initializeApp({

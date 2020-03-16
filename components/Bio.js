@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { setUserName } from '../redux/userReducer'
-import { Tabs } from '../navigation/myBottomTabNavigator'
+import { setBio } from '../redux/userReducer'
 import {
   StyleSheet,
   TextInput, // 1. <- Add this
@@ -10,27 +9,29 @@ import {
   TouchableOpacity
 } from 'react-native';
 
-class Main extends React.Component {
+class Bio extends React.Component {
+
   constructor(props){
     super(props)
-    this.state = { name: '' }
+    this.state = { bio: '' }
   }
   render() {
     return (
       <View>
-        <Text style={styles.prompt}>Hello. What's your name?</Text>
+        <Text style={styles.prompt}>Thanks. Now, tell us about yourself.</Text>
+        <Text style={styles.example}>Ex: I'm new to the app. I'm here to connect.</Text>
         <TextInput
           style={styles.nameInput}
-          placeHolder="Guest"
-          value={this.state.name}
-          onChangeText={(name) => {this.setState({ name })}}
+          placeHolder="I'm new to the app. I'm here to connect."
+          value={this.state.bio}
+          onChangeText={(bio) => {this.setState({ bio })}}
         />
         <TouchableOpacity>
           <Text
           style={styles.buttonText}
           onPress={()=> {
-            this.props.setUserName(this.state.name);
-            this.props.navigation.navigate('Bio');
+            this.props.setBio(this.state.bio);
+            this.props.navigation.navigate('Tabs');
           }}
           >
             Next
@@ -55,6 +56,12 @@ const styles = StyleSheet.create({
     marginLeft: offset,
     fontSize: offset,
   },
+  example: {
+    marginTop: offset,
+    marginLeft: offset,
+    fontSize: 13,
+    fontStyle: "italic"
+  },
   buttonText: {
     marginLeft: offset,
     fontSize: offset,
@@ -63,11 +70,12 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
+  bio: state.user.bio,
   name: state.user.name
 })
 
 const mapDispatchToProps = dispatch => ({
-  setUserName: (name) => { dispatch(setUserName(name)) }
+  setBio: (bio) => { dispatch(setBio(bio)) }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(Bio);
